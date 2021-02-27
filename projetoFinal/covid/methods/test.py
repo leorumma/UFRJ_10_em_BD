@@ -16,7 +16,7 @@ def test_query():
             group by anchor
         ) as t1
     ) as t
-    group by table_type
+    group by table_type;
     """
 
     df = pd.read_sql(query, con=con.get())

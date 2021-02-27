@@ -1,8 +1,14 @@
 from django.http import JsonResponse, HttpResponse
 
 from covid.methods.test import test_query
+from . import age_groups
 
-def __page():
+methods = {
+	"/teste/" : test_query,
+	"/age_groups/": age_groups.do_query
+}
+
+def __page(request):
 
 	output = {
 	    "title": "Covid Graphs",
@@ -15,7 +21,7 @@ def __page():
 			    "subtitle": "teste subtitle",
 			    "description": "teste description",
 			    "type": "test type",
-			    "content": test_query(),
+			    "content": methods[request.path](),
 		    }],
         }],
     }

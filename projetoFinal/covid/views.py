@@ -5,4 +5,5 @@ from .methods.page import __page
 # Create your views here.
 
 def page(request):
-    return __page()
+    #print(request)
+    return __page(request)
