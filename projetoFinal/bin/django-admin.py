@@ -1,4 +1,4 @@
-#!/home/leonardo/Faculdade/BancoDeDados/WorkSpace/UFRJ_10_em_BD/projetoFinal/bin/python3
+#!/home/nasredd1n/prog/UFRJ_10_em_BD/projetoFinal/bin/python
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 
