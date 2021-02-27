@@ -1,8 +1,8 @@
 from django.shortcuts import render
 
-from .methods.test import test_query
+from .methods.page import __page
 
 # Create your views here.
 
-def test_page(request):
-    return test_query()
+def page(request):
+    return __page()

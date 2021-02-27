@@ -8,11 +8,11 @@ def get_bar_chart(df: pd.DataFrame, x_column, y_column, width=80):
         raise Exception("Not a pandas dataFrame")
 
     return {
-            #"labels": df[x_column].tolist(),
+            "labels": df[x_column].tolist(),
             "datasets": [{
                 "label": "",
                 "data": df[y_column].tolist(),
-                "backgroundColor": bg_color
+                "backgroundColor": bg_color,
                 "barThickness": width,
             }]
         }
