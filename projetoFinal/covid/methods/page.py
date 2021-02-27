@@ -2,10 +2,12 @@ from django.http import JsonResponse, HttpResponse
 
 from covid.methods.test import test_query
 from . import age_groups
+from . import outcomes
 
 methods = {
 	"/teste/" : test_query,
-	"/age_groups/": age_groups.do_query
+	"/age_groups/": age_groups.do_query,
+	"/outcomes/": outcomes.do_query,
 }
 
 def __page(request):
