@@ -25,7 +25,7 @@ SECRET_KEY = '4i@ughm+3v=3s6s=ot%$d)a^8nhr1_jv107!^v-c*z)q_njr)l'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['34.123.117.26', 'localhost']
+ALLOWED_HOSTS = ['34.123.117.26', 'localhost', 'trabalho-de-bd.tk', 'www.trabalho-de-bd.tk']
 CORS_ORIGIN_ALLOW_ALL = True
 
 
