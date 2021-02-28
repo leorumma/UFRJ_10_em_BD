@@ -1,15 +1,27 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import Home from '@/views/Home'
+
+import helpers from '../helpers/helpers'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'Home',
+      component: Home
     }
-  ]
+  ],
+  base: '/',
+  mode: 'history'
 })
+
+router.beforeEach((to, from, next) => {
+  document.title = `${helpers.startCase(to.name)} - ${process.env.VUE_APP_APP_NAME}`
+
+  next()
+})
+
+export default router
