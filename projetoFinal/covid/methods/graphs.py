@@ -40,7 +40,6 @@ def get_grouped_bar_chart(df: pd.DataFrame, x_column, y_column_trace1, y_column_
     }
 
     return {
-        #"labels": df[x_column].tolist(),
         "labels": anonymize(df[x_column].tolist()),
         "datasets": [trace1, trace2]
     }
