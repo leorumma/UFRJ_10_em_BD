@@ -26,6 +26,7 @@ SECRET_KEY = '4i@ughm+3v=3s6s=ot%$d)a^8nhr1_jv107!^v-c*z)q_njr)l'
 DEBUG = True
 
 ALLOWED_HOSTS = ['34.123.117.26', 'localhost']
+CORS_ORIGIN_ALLOW_ALL = True
 
 
 # Application definition
@@ -37,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'covid'
 ]
 
@@ -48,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'projetoFinal.urls'
