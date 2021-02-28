@@ -5,7 +5,7 @@ import pandas as pd
 import covid.methods.connection as con
 import covid.methods.graphs as graphs
 
-def do_query():
+def do_query(**kwargs):
     query = """
     WITH 
     outcomes AS (

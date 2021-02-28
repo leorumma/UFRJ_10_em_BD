@@ -5,7 +5,7 @@ import pandas as pd
 import covid.methods.connection as con
 import covid.methods.graphs as graphs
 
-def test_query():
+def test_query(**kwargs):
     query = """
     select table_type, (count(table_name)::decimal / max(t.total)) as percent
     from information_schema.tables
