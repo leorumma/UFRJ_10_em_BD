@@ -20,7 +20,8 @@ export default {
       required: true
     },
 
-    // tipo de grafico
+    // tipo de grafico a ser desenhado, ex: bar, line, pie, etc
+    // referencia para os tipos possiveis: https://www.chartjs.org/docs/latest/charts/
     chartType: {
       type: String,
       required: true
@@ -56,11 +57,23 @@ export default {
 
   },
 
+  // desenha o gráfico quando o componente pai recebe os dados da api e modifica
+  // o array de dados. necessario por causa da assincronicidade
+  watch: {
+    "data": function () {
+      this.createChart(`chart${this.item}`)
+    }
+  },
+
+  // desenha o grafico quando o usuario acessa a pagina dos graficos
+  // não é necessário porque quando ele acessa, a página não possui os
+  // os dados ainda mas vai que né 
   mounted () {
     this.createChart(`chart${this.item}`)
   },
 
   methods: {
+    // inicializa os dados referentes ao grafico
     initChartData () {
       let chart = {
         labels: [],
@@ -89,6 +102,7 @@ export default {
       return chart
     },
 
+    // função para desenhar o grafico
     createChart (chartId) {
       if (this.data.length < 1) {
         return

@@ -19,7 +19,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  document.title = `${helpers.startCase(to.name)} - ${process.env.VUE_APP_APP_NAME}`
+  document.title = `${helpers.startCase(to.name)} - ${process.env.APP_NAME}`
 
   next()
 })
