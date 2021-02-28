@@ -9,7 +9,7 @@
       >
         <chart
           :item="(i-1)*2 + key"
-          chartType="pie"
+          :chartType="chart.tipo"
           :chartLabel="chart.titulo"
           :data="chart.dados"
         />
@@ -42,14 +42,14 @@ export default {
   methods: {
     getCharts () {
       get({
-        url: `${API_PATH}/age_groups/`,
+        url: `${API_PATH}/mainpage/`,
         success: data => {
           // percorre a resposta colocando os dados no padrao
           // para o grafico ser desenhado
           for (let content of data.content) {
 
             for (let chartData of content.children) {
-              let chart = { titulo: chartData.title, dados: [] }
+              let chart = { titulo: chartData.title, tipo: chartData.type, dados: [] }
 
               for (let label in chartData.content) {
                 chart.dados.push({ label: label, value: chartData.content[label] })

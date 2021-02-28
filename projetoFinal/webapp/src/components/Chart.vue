@@ -60,14 +60,14 @@ export default {
   // desenha o gráfico quando o componente pai recebe os dados da api e modifica
   // o array de dados. necessario por causa da assincronicidade
   watch: {
-    "data": function () {
+    'data': function () {
       this.createChart(`chart${this.item}`)
     }
   },
 
   // desenha o grafico quando o usuario acessa a pagina dos graficos
   // não é necessário porque quando ele acessa, a página não possui os
-  // os dados ainda mas vai que né 
+  // os dados ainda mas vai que né
   mounted () {
     this.createChart(`chart${this.item}`)
   },
