@@ -5,9 +5,12 @@ import pandas as pd
 import covid.methods.connection as con
 import covid.methods.graphs as graphs
 
-def do_query():
+def do_query(**kwargs):
     query = """
-    WITH ages_table AS (SELECT CAST(answer as INTEGER) as age FROM tb_questiongroupformrecord where questionid=144)
+    WITH ages_table AS (
+        SELECT CAST(answer as INTEGER) as age 
+        FROM tb_questiongroupformrecord 
+        WHERE questionid=144)
 
     SELECT count(*) FROM ages_table WHERE age < 40
     UNION SELECT count(*) FROM ages_table WHERE age >= 40 and age < 60

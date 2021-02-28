@@ -10,22 +10,15 @@ methods = {
 	"/outcomes/": outcomes.do_query,
 }
 
-def __page(request):
+def __page(path, queryargs={}):
 
 	output = {
-	    "title": "Covid Graphs",
-	    "headers": [], # espaco para cards se for usar
-	    "content": [{
-            "title": "Test Graphs",
-		    "children": [{
-			    # teste
-			    "title": "teste title",
-			    "subtitle": "teste subtitle",
-			    "description": "teste description",
-			    "type": "test type",
-			    "content": methods[request.path](),
-		    }],
-        }],
+		# teste
+		"title": "teste title",
+		"subtitle": "teste subtitle",
+		"description": "teste description",
+		"type": "test type",
+		"content": methods[path](**queryargs),
     }
 
-	return JsonResponse(output)
+	return output
