@@ -35,7 +35,7 @@ export default {
 
     // dados do grafico. deve ser um array de objetos com o label de cada dado que possuir
     data: {
-      type: Array,
+      type: [Array, Object],
       required: true
     },
 
@@ -102,29 +102,72 @@ export default {
       return chart
     },
 
+    initChartDataForStackedBar () {
+      let arrayColors = ['#FF6384', '#4BC0C0', '#FFCD56', '#FF9F40', '#36A2EB']
+
+      let chart = {
+        labels: this.data.labels,
+        datasets: []
+      }
+
+      for (const [index, dataset] of this.data.datasets.entries()) {
+        chart.datasets.push({
+          label: dataset.label,
+          data: dataset.data,
+          borderWidth: 3,
+          backgroundColor: arrayColors[index % arrayColors.length]
+        })
+      }
+
+      return chart
+    },
+
     // função para desenhar o grafico
     createChart (chartId) {
       if (this.data.length < 1) {
         return
       }
 
-      let chartData = this.initChartData()
+      let chartType, chartData, chartOptions
+
+      if (this.chartType === 'stacked bar') {
+        chartType = 'bar'
+        chartData = this.initChartDataForStackedBar()
+        chartOptions = {
+          xAxes: [{
+            stacked: true
+          }],
+          yAxes: [{
+            stacked: true,
+            ticks: {
+              beginAtZero: true,
+              padding: 25
+            }
+          }]
+        }
+
+      } else {
+        chartType = this.chartType
+        chartData = this.initChartData()
+        chartOptions = {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              padding: 25
+            }
+          }]
+        }
+
+      }
 
       const ctx = document.getElementById(chartId)
       new Chart(ctx, {
-        type: this.chartType,
+        type: chartType,
         data: chartData,
         options: {
           responsive: true,
           lineTension: 1,
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true,
-                padding: 25
-              }
-            }]
-          }
+          scales: chartOptions
         }
       })
     }
