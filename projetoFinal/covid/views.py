@@ -31,6 +31,7 @@ def main_page(request):
                 __page('/age_groups/'),
                 __page('/outcomes/'),
                 __page('/age_group_outcomes/'),
+                __page('/age_group_sexes/'),
                 ]
             },
         ],
