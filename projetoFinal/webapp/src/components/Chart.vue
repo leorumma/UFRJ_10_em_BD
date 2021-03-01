@@ -145,7 +145,6 @@ export default {
             }
           }]
         }
-
       } else {
         chartType = this.chartType
         chartData = this.initChartData()
@@ -157,10 +156,10 @@ export default {
             }
           }]
         }
-
       }
 
       const ctx = document.getElementById(chartId)
+      // eslint-disable-next-line
       new Chart(ctx, {
         type: chartType,
         data: chartData,
