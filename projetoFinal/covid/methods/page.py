@@ -5,6 +5,7 @@ from . import age_groups
 from . import age_group_outcomes
 from . import age_group_sexes
 from . import outcomes
+from . import answers
 
 
 from collections import defaultdict
@@ -16,6 +17,8 @@ methods = {
 	"/outcomes/": outcomes.do_query,
 	"/age_group_outcomes/": age_group_outcomes.do_query,
 	"/age_group_sexes/": age_group_sexes.do_query,
+
+	"/answers/": answers.do_query,
 }
 
 titles = defaultdict(lambda : "Test Title", {
@@ -23,11 +26,15 @@ titles = defaultdict(lambda : "Test Title", {
 	"/outcomes/": "Sumário dos Desfechos",
 	"/age_group_outcomes/" : "Desfechos por Faixa Etária",
 	"/age_group_sexes/": "Sexo por Faixa Etária",
+
+	"/answers/": 'Perguntas respondidas',
 })
 
 types = defaultdict(lambda : "pie", {
 	"/age_group_outcomes/": "stacked bar",
 	"/age_group_sexes/": "stacked bar",
+
+	"/answers/": 'bar',
 })
 
 def __page(path, queryargs={}):

@@ -22,17 +22,24 @@ def page(request):
     return JsonResponse(output)
 
 def main_page(request):
-    response = {
-        'title': 'Main Page',
-        "headers": [], # espaco para cards se for usar
-        'content': [{
-            "title": "Covid Graphs",
-            "children": [
+    if 'simulated' in request.GET:
+        children = [
+                __page('/answers/'),
+                ]
+    else:
+        children = [
                 __page('/age_groups/'),
                 __page('/outcomes/'),
                 __page('/age_group_outcomes/'),
                 __page('/age_group_sexes/'),
                 ]
+
+    response = {
+        'title': 'Main Page',
+        "headers": [], # espaco para cards se for usar
+        'content': [{
+            "title": "Covid Graphs",
+            "children": children,
             },
         ],
     }
