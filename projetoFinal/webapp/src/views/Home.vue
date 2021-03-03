@@ -1,31 +1,58 @@
 <template>
   <b-container>
-    <b-row
-      :class="{ 'mt-4': i > 1 }"
-      v-for="i in Math.ceil(charts.length / 2)"
-      :key="i"
-    >
-      <b-col sm="6" v-for="(chart, key) in charts.slice((i - 1) * 2, i * 2)" :key="key">
-        <chart
-          :item="(i-1)*2 + key"
-          :chartType="chart.tipo"
-          :chartLabel="chart.titulo"
-          :data="chart.dados"
-        />
-      </b-col>
+    <b-row>
+      <div>
+        <b-button
+          class="mb-4"
+          :variant="isRealData ? 'outline-primary' : 'primary'"
+          @click="changeCharts(true)"
+        >
+          Dados Reais
+        </b-button>
+
+        <b-button
+          class="mb-4"
+          :variant="!isRealData ? 'outline-primary' : 'primary'"
+          @click="changeCharts(false)"
+        >
+          Dados Simulados
+        </b-button>
+      </div>
     </b-row>
-<!--
-    <b-row class="mt-4 mb-5" v-for="i in Math.ceil(charts_example.length / 2)" :key="charts.length + i">
-      <b-col sm="6" v-for="(chart, key) in charts_example.slice((i - 1) * 2, i * 2)" :key="key">
-        <chart
-          :item="(i-1)*2 + key + charts.length"
-          chartType="stacked bar"
-          :chartLabel="chart.titulo"
-          :data="chart.dados"
-        />
-      </b-col>
-    </b-row>
--->
+
+    <div v-if="isRealData">
+      <b-row
+        class="mb-4"
+        v-for="i in Math.ceil(realDataCharts.length / 2)"
+        :key="i"
+      >
+        <b-col sm="6" v-for="(chart, key) in realDataCharts.slice((i - 1) * 2, i * 2)" :key="key">
+          <chart
+            :item="(i-1)*2 + key"
+            :chartType="chart.tipo"
+            :chartLabel="chart.titulo"
+            :data="chart.dados"
+          />
+        </b-col>
+      </b-row>
+    </div>
+
+    <div v-else>
+      <b-row
+        class="mb-4"
+        v-for="i in Math.ceil(simulatedDataCharts.length / 2)"
+        :key="i"
+      >
+        <b-col sm="6" v-for="(chart, key) in simulatedDataCharts.slice((i - 1) * 2, i * 2)" :key="key">
+          <chart
+            :item="(i-1)*2 + key"
+            :chartType="chart.tipo"
+            :chartLabel="chart.titulo"
+            :data="chart.dados"
+          />
+        </b-col>
+      </b-row>
+    </div>
   </b-container>
 </template>
 
@@ -42,8 +69,10 @@ export default {
 
   data () {
     return {
-      // charts_example: [],
-      charts: []
+      isRealData: true,
+
+      realDataCharts: [],
+      simulatedDataCharts: []
     }
   },
 
@@ -52,9 +81,25 @@ export default {
   },
 
   methods: {
+    changeCharts (isRealData) {
+      this.isRealData = isRealData
+
+      if (!this.isRealData && this.simulatedDataCharts.length == 0) {
+        this.getCharts()
+      }
+    },
+
     getCharts () {
+      let url = '/mainpage'
+
+      if (this.isRealData) {
+        url += '?simulated=0/'
+      } else {
+        url += '?simulated=1/'
+      }
+
       get({
-        url: `${API_PATH}/mainpage/`,
+        url: API_PATH + url,
         success: data => {
           for (let content of data.content) {
             // percorre a resposta colocando os dados no padrao
@@ -74,33 +119,16 @@ export default {
                 }
               }
 
-              this.charts.push(chart)
+              if (this.isRealData) {
+                this.realDataCharts.push(chart)
+              } else {
+                this.simulatedDataCharts.push(chart)
+              }
             }
           }
         }
       })
-      /*
-      get({
-        url: `${API_PATH}/teste/`,
-        success: data => {
-          for (let content of data.content) {
 
-            for (let chartData of content.children) {
-              let chart = {
-                titulo: chartData.title,
-                tipo: chartData.type,
-                dados: {
-                  labels: chartData.content.labels,
-                  datasets: chartData.content.datasets
-                }
-              }
-
-              this.charts_example.push(chart)
-            }
-
-          }
-        }
-      }) */
     }
   }
 

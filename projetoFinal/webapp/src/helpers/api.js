@@ -22,9 +22,7 @@ function req (args) {
     .catch(e => {
       console.log(args.method + ' - ' + args.url)
       console.log(args)
-      console.log(e.response)
-
-      args.error(e.response.data.error)
+      console.log(e)
     })
 }
 
