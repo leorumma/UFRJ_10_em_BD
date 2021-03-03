@@ -9,6 +9,7 @@ urlpatterns = [
 	path('age_group_sexes/', page, name='page'),
 
 	path('answers/', page, name='page'),
+	path('timeline/', page, name='page'),
 	
 	path('mainpage/', main_page, name='Main Page'),
 ]

@@ -9,6 +9,19 @@ def get_chart(df: pd.DataFrame, x_column, y_column, width=80):
 
     return dict(zip(df[x_column].tolist(), df[y_column].tolist()))
 
+def get_single_line_chart(df: pd.DataFrame, x_column, y_column):
+
+    bg_color = "rgba(158,202,225,0.8)"
+
+    if not isinstance(df, pd.DataFrame):
+        raise Exception("Not a pandas dataFrame")
+
+    return [{
+        'x': df[x_column].tolist(), 
+        'y': df[y_column].tolist(),
+        'label': y_column
+    }]
+
 
 def get_card(value: str, desc: str, icon: int) -> dict:
     # ajust
