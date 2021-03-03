@@ -20,15 +20,19 @@
       </div>
     </b-row>
 
-    <div v-if="isRealData">
+    <div v-show="isRealData">
       <b-row
         class="mb-4"
         v-for="i in Math.ceil(realDataCharts.length / 2)"
         :key="i"
       >
-        <b-col sm="6" v-for="(chart, key) in realDataCharts.slice((i - 1) * 2, i * 2)" :key="key">
+        <b-col
+          :sm="chart.tipo == 'pie' ? 6 : 12"
+          v-for="(chart, key) in realDataCharts.slice((i - 1) * 2, i * 2)"
+          :key="key"
+        >
           <chart
-            :item="(i-1)*2 + key"
+            :item="chart.index"
             :chartType="chart.tipo"
             :chartLabel="chart.titulo"
             :data="chart.dados"
@@ -37,7 +41,7 @@
       </b-row>
     </div>
 
-    <div v-else>
+    <div v-show="!isRealData">
       <b-row
         class="mb-4"
         v-for="i in Math.ceil(simulatedDataCharts.length / 2)"
@@ -45,7 +49,7 @@
       >
         <b-col sm="6" v-for="(chart, key) in simulatedDataCharts.slice((i - 1) * 2, i * 2)" :key="key">
           <chart
-            :item="(i-1)*2 + key"
+            :item="chart.index"
             :chartType="chart.tipo"
             :chartLabel="chart.titulo"
             :data="chart.dados"
@@ -70,6 +74,7 @@ export default {
   data () {
     return {
       isRealData: true,
+      chartIndex: 0,
 
       realDataCharts: [],
       simulatedDataCharts: []
@@ -84,7 +89,7 @@ export default {
     changeCharts (isRealData) {
       this.isRealData = isRealData
 
-      if (!this.isRealData && this.simulatedDataCharts.length == 0) {
+      if (!this.isRealData && this.simulatedDataCharts.length === 0) {
         this.getCharts()
       }
     },
@@ -106,7 +111,12 @@ export default {
             // para o grafico ser desenhado
 
             for (let chartData of content.children) {
-              let chart = { titulo: chartData.title, tipo: chartData.type, dados: [] }
+              let chart = {
+                index: this.chartIndex,
+                titulo: chartData.title,
+                tipo: chartData.type,
+                dados: []
+              }
 
               if (chart.tipo === 'stacked bar') {
                 chart.dados = {
@@ -124,6 +134,8 @@ export default {
               } else {
                 this.simulatedDataCharts.push(chart)
               }
+
+              this.chartIndex++
             }
           }
         }

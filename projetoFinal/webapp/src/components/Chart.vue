@@ -74,14 +74,14 @@ export default {
 
   methods: {
     // inicializa os dados referentes ao grafico
-    initChartData () {
+    initChartDataForBar () {
       let chart = {
         labels: [],
         datasets: [{
           label: this.chartLabel,
           data: [],
           borderWidth: 3,
-          backgroundColor: ['#FF6384', '#FF9F40', '#36A2EB', '#4BC0C0', '#FFCD56']
+          backgroundColor: []
         }]
       }
 
@@ -97,6 +97,8 @@ export default {
         chart.labels.push(data[this.dataLabelProp])
 
         chart.datasets[0].data.push(data[this.dataValueProp])
+
+        chart.datasets[0].backgroundColor.push('#36A2EB')
       }
 
       return chart
@@ -122,9 +124,41 @@ export default {
       return chart
     },
 
+    initChartDataForPie () {
+      let arrayColors = ['#FF6384', '#FF9F40', '#36A2EB', '#4BC0C0', '#FFCD56']
+
+      let chart = {
+        labels: [],
+        datasets: [{
+          label: this.chartLabel,
+          data: [],
+          borderWidth: 3,
+          backgroundColor: []
+        }]
+      }
+
+      for (const [index, data] of this.data.entries()) {
+        if (!data[this.dataLabelProp]) {
+          console.error(`O objeto do dado não possui ${this.dataLabelProp} para o label.`)
+        }
+
+        if (!data[this.dataValueProp]) {
+          console.error(`O objeto do dado não possui ${this.dataValueProp} para o value.`)
+        }
+
+        chart.labels.push(data[this.dataLabelProp])
+
+        chart.datasets[0].data.push(data[this.dataValueProp])
+
+        chart.datasets[0].backgroundColor.push(arrayColors[index % arrayColors.length])
+      }
+
+      return chart
+    },
+
     // função para desenhar o grafico
     createChart (chartId) {
-      if (this.data.length < 1) {
+      if (this.data && this.data.length === 0) {
         return
       }
 
@@ -146,8 +180,13 @@ export default {
           }]
         }
       } else {
+        if (this.chartType === 'bar') {
+          chartData = this.initChartDataForBar()
+        } else if (this.chartType === 'pie') {
+          chartData = this.initChartDataForPie()
+        }
+
         chartType = this.chartType
-        chartData = this.initChartData()
         chartOptions = {
           yAxes: [{
             ticks: {
