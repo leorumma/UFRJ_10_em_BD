@@ -22,7 +22,7 @@ def page(request):
     return JsonResponse(output)
 
 def main_page(request):
-    if 'simulated' in request.GET and request.GET['simulated'] == '0':
+    if 'simulated' in request.GET and request.GET['simulated'] in ('0', '0/'):
         children = [
                 __page('/answers/'),
                 ]
