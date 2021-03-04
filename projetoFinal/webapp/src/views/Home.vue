@@ -22,12 +22,12 @@
 
     <div v-show="isRealData">
       <b-row
-        class="mb-4"
         v-for="i in Math.ceil(realDataCharts.length / 2)"
         :key="i"
       >
         <b-col
-          :sm="chart.tipo == 'pie' ? 6 : 12"
+          class="mb-4"
+          :sm="chart.tipo == 'bar' || chart.tipo == 'line' ? 12 : 6"
           v-for="(chart, key) in realDataCharts.slice((i - 1) * 2, i * 2)"
           :key="key"
         >
@@ -36,6 +36,7 @@
             :chartType="chart.tipo"
             :chartLabel="chart.titulo"
             :data="chart.dados"
+            :showLegend="chart.showLegend"
           />
         </b-col>
       </b-row>
@@ -43,16 +44,21 @@
 
     <div v-show="!isRealData">
       <b-row
-        class="mb-4"
         v-for="i in Math.ceil(simulatedDataCharts.length / 2)"
         :key="i"
       >
-        <b-col sm="6" v-for="(chart, key) in simulatedDataCharts.slice((i - 1) * 2, i * 2)" :key="key">
+        <b-col
+          class="mb-4"
+          :sm="chart.tipo == 'bar' || chart.tipo == 'line' ? 12 : 6"
+          v-for="(chart, key) in simulatedDataCharts.slice((i - 1) * 2, i * 2)"
+          :key="key"
+        >
           <chart
             :item="chart.index"
             :chartType="chart.tipo"
             :chartLabel="chart.titulo"
             :data="chart.dados"
+            :showLegend="chart.showLegend"
           />
         </b-col>
       </b-row>
@@ -115,6 +121,7 @@ export default {
                 index: this.chartIndex,
                 titulo: chartData.title,
                 tipo: chartData.type,
+                showLegend: true,
                 dados: []
               }
 
@@ -123,7 +130,21 @@ export default {
                   labels: chartData.content.labels,
                   datasets: chartData.content.datasets
                 }
+
+              } else if (chart.tipo === 'line') {
+                chart.showLegend = false
+
+                for (let point of chartData.content) {
+                  for (let i = 0; i < point.x.length; i++) {
+                    chart.dados.push({ label: point.x[i], value: point.y[i] })
+                  }
+                }
+
               } else {
+                if (chart.tipo === 'bar') {
+                  chart.showLegend = false
+                }
+
                 for (let label in chartData.content) {
                   chart.dados.push({ label: label, value: chartData.content[label] })
                 }

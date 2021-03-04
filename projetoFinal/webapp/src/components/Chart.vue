@@ -53,8 +53,13 @@ export default {
       type: String,
       required: false,
       default: 'value'
-    }
+    },
 
+    showLegend: {
+      type: Boolean,
+      required: false,
+      default: true
+    }
   },
 
   // desenha o gráfico quando o componente pai recebe os dados da api e modifica
@@ -75,6 +80,8 @@ export default {
   methods: {
     // inicializa os dados referentes ao grafico
     initChartDataForBar () {
+      let arrayColors = ['#FF6384', '#FF9F40', '#36A2EB', '#4BC0C0', '#FFCD56', '#835EA2']
+
       let chart = {
         labels: [],
         datasets: [{
@@ -85,7 +92,7 @@ export default {
         }]
       }
 
-      for (let data of this.data) {
+      for (const [index, data] of this.data.entries()) {
         if (!data[this.dataLabelProp]) {
           console.error(`O objeto do dado não possui ${this.dataLabelProp} para o label.`)
         }
@@ -98,7 +105,7 @@ export default {
 
         chart.datasets[0].data.push(data[this.dataValueProp])
 
-        chart.datasets[0].backgroundColor.push('#36A2EB')
+        chart.datasets[0].backgroundColor.push(arrayColors[index % arrayColors.length])
       }
 
       return chart
@@ -125,7 +132,7 @@ export default {
     },
 
     initChartDataForPie () {
-      let arrayColors = ['#FF6384', '#FF9F40', '#36A2EB', '#4BC0C0', '#FFCD56']
+      let arrayColors = ['#FF6384', '#FF9F40', '#36A2EB', '#4BC0C0', '#FFCD56', '#835EA2']
 
       let chart = {
         labels: [],
@@ -151,6 +158,35 @@ export default {
         chart.datasets[0].data.push(data[this.dataValueProp])
 
         chart.datasets[0].backgroundColor.push(arrayColors[index % arrayColors.length])
+      }
+
+      return chart
+    },
+
+    initChartDataForLine () {
+      let chart = {
+        labels: [],
+        datasets: [{
+          label: this.chartLabel,
+          data: [],
+          borderWidth: 3,
+          borderColor: '#835EA2',
+          fill: false
+        }]
+      }
+
+      for (let data of this.data) {
+        if (!data[this.dataLabelProp]) {
+          console.error(`O objeto do dado não possui ${this.dataLabelProp} para o label.`)
+        }
+
+        if (!data[this.dataValueProp]) {
+          console.error(`O objeto do dado não possui ${this.dataValueProp} para o value.`)
+        }
+
+        chart.labels.push(data[this.dataLabelProp])
+
+        chart.datasets[0].data.push(data[this.dataValueProp])
       }
 
       return chart
@@ -184,6 +220,8 @@ export default {
           chartData = this.initChartDataForBar()
         } else if (this.chartType === 'pie') {
           chartData = this.initChartDataForPie()
+        } else if (this.chartType === 'line') {
+          chartData = this.initChartDataForLine()
         }
 
         chartType = this.chartType
@@ -203,6 +241,7 @@ export default {
         type: chartType,
         data: chartData,
         options: {
+          legend: { display: this.showLegend },
           responsive: true,
           lineTension: 1,
           scales: chartOptions
