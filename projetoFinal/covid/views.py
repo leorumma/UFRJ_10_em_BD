@@ -27,6 +27,7 @@ def main_page(request):
                 __page('/answers/'),
                 __page('/timeline/'),
                 __page('/sodium/'),
+                __page('/o2byco2/'),
                 ]
     else:
         children = [
