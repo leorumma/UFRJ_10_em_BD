@@ -1,0 +1,18 @@
+-- Execute psql in this directory, then copy and paste this file into the terminal to populate the database.
+
+INSERT INTO tb_hospitalunit VALUES (1,'Hospital Sírio Libanês');
+
+INSERT INTO tb_questionnaire VALUES (1,'WHO COVID-19 Rapid Version CRF');
+INSERT INTO tb_crfforms VALUES (1,1,'Admission form'),(2,1,'Follow-up'),(3,1,'Discharge/death form');
+INSERT INTO tb_questionnairepartstable VALUES (1,'tb_questionnaire'),(2,'tb_crfforms'),(3,'tb_listtype'),(4,'tb_listofvalues'),(5,'tb_questiontype'),(6,'tb_questions'),(7,'tb_questiongroup');
+
+INSERT INTO tb_listtype VALUES (1,'Antiviral list'),(2,'AVPU list'),(3,'Coronavirus list'),(4,'Corticosteroid list'),(5,'Country list'),(6,'HIV list'),(7,'Interface list'),(8,'O2 flow list'),(9,'Outcome list'),(10,'Outcome saturation list'),(11,'pnnotdone_list'),(12,'self_care_list'),(13,'sex at birth list'),(14,'Source of oxygen list'),(15,'ynu_list'),(16,'ynun_list');
+\i listofvalues.sql
+INSERT INTO tb_questiontype VALUES (1,'Boolean_Question'),(2,'Date question'),(3,'Laboratory question'),(4,'List question'),(5,'Number question'),(6,'PNNot_done_Question'),(7,'Text_Question'),(8,'YNU_Question'),(9,'YNUN_Question'),(10,'Ventilation question');
+INSERT INTO tb_questiongroup VALUES (1,'Clinical inclusion criteria',''),(2,'Co-morbidities','Existing conditions prior to admission.'),(3,'Complications',''),(4,'Daily clinical features',''),(5,'Date of onset and admission vital signs','first available data at presentation/admission'),(6,'Demographics',''),(7,'Diagnostic/pathogen testing',''),(8,'Laboratory results',''),(9,'Medication','Is the patient CURRENTLY receiving any of the following?'),(10,'Outcome',''),(11,'Pre-admission & chronic medication','Were any of the following taken within 14 days of admission?'),(12,'Signs and symptoms on admission',''),(13,'Supportive care','Is the patient CURRENTLY receiving any of the following?'),(14,'Vital signs','');
+\i questions.sql
+\i questiongroupform.sql
+
+\i assessmentquestionnaire.sql
+\i formrecord.sql
+\i questiongroupformrecord.sql
