@@ -8,10 +8,10 @@ import covid.methods.graphs as graphs
 def do_query(**kwargs):
     query = """
     WITH 
-    sodium_measurements as (
-    SELECT CAST(answer as INTEGER) as mmol 
-    FROM tb_questiongroupformrecord
-    WHERE questionid=170
+        sodium_measurements as (
+        SELECT CAST(answer as INTEGER) as mmol 
+        FROM tb_questiongroupformrecord
+        WHERE questionid=170
     )
 
     SELECT mmol/5*5 || '-' || mmol/5*5+5-1 as "mmol/L", count(*)
