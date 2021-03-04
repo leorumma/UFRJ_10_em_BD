@@ -10,6 +10,7 @@ urlpatterns = [
 
 	path('answers/', page, name='page'),
 	path('timeline/', page, name='page'),
+	path('sodium/', page, name='page'),
 	
 	path('mainpage/', main_page, name='Main Page'),
 ]
